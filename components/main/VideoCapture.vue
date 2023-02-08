@@ -1,9 +1,9 @@
 <template>
-	<div class="c-video-capture overflow-hidden">
+	<div v-if="preview" class="c-video-capture overflow-hidden">
 		<video ref="video" width="100%" autoplay></video>
 
 		<div
-			v-for="({ x, y, score }, index) in points"
+			v-for="({ x, y, score }, index) in rawPoints"
 			:key="`point-${index}`"
 			:style="{
 				top: `${(y / 480) * 100}%`,
@@ -26,6 +26,13 @@ import * as poseDetection from '@tensorflow-models/pose-detection';
 export default {
 	name: 'VideoCapture',
 	inheritAttrs: false,
+
+	props: {
+		preview: {
+			type: Boolean,
+			default: false,
+		},
+	},
 
 	data() {
 		return {
@@ -50,7 +57,7 @@ export default {
 
 	methods: {
 		initialise(stream) {
-			this.$refs.video.srcObject = stream;
+			this.preview && (this.$refs.video.srcObject = stream);
 			this.tracks = stream.getTracks();
 			this.imageCapture = new ImageCapture(this.tracks[0]);
 
@@ -76,7 +83,7 @@ export default {
 
 		async onFrameUpdate(bitmap) {
 			const poses = await this.detector?.estimatePoses?.(bitmap);
-			this.rawPoints = poses[0]?.keypoints;
+			this.rawPoints = poses?.[0]?.keypoints;
 			!this.points && (this.points = this.rawPoints);
 		},
 
@@ -88,8 +95,8 @@ export default {
 
 			if (this.points) {
 				this.points = this.points.map(({ x, y }, index) => ({
-					x: this.lerp(x, this.rawPoints[index].x, (0.3 * delta) / 16),
-					y: this.lerp(y, this.rawPoints[index].y, (0.3 * delta) / 16),
+					x: this.lerp(x, this.rawPoints[index].x, 0.006 * delta),
+					y: this.lerp(y, this.rawPoints[index].y, 0.006 * delta),
 					score: this.rawPoints[index].score,
 					name: this.rawPoints[index].name,
 				}));

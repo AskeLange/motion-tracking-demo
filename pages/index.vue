@@ -1,66 +1,57 @@
 <template>
 	<div class="p-frontpage">
 		<VideoCapture
-			class="fixed top-layout-margin right-layout-margin w-4/12col"
+			preview
+			:class="[
+				'fixed top-1/2 left-0 w-full opacity-30',
+				'transform -translate-y-1/2',
+			]"
 			@update="onUpdate"
 		/>
 
-		<div
-			:class="[
-				'fixed bottom-layout-margin left-layout-margin',
-				'border border-secondary',
-				'w-12/12col',
-			]"
-			:style="`height: calc(100vh - 72px * 2 - 480px)`"
-		>
-			<div
-				v-if="rwrist"
-				:class="[
-					'absolute top-1/2',
-					'transform -translate-y-1/2 -translate-x-1/2',
-					'rounded-full bg-secondary',
-				]"
-				:style="{
-					left: `${((1 - rwrist.x) * 0.96 + 0.02) * 100}%`,
-					width: '32px',
-					height: '20px',
-				}"
-			></div>
-			<div
-				v-if="lwrist"
-				:class="[
-					'absolute top-1/2',
-					'transform -translate-y-1/2 -translate-x-1/2',
-					'rounded-full bg-tertiary',
-				]"
-				:style="{
-					left: `${((1 - lwrist.x) * 0.96 + 0.02) * 100}%`,
-					width: '32px',
-					height: '20px',
-				}"
-			></div>
-		</div>
+		<TimeLine v-if="wrist" :percentage="sum.x" :active="true" />
 	</div>
 </template>
 
 <script>
 import VideoCapture from '~/components/main/VideoCapture';
+import TimeLine from '~/components/main/TimeLine';
 
 export default {
 	name: 'FrontPage',
-	components: { VideoCapture },
+	components: { VideoCapture, TimeLine },
 
 	data() {
 		return {
-			rwrist: null,
-			lwrist: null,
+			wrist: null,
+
+			sum: {
+				x: 0,
+				score: 0,
+			},
 		};
 	},
 
 	methods: {
 		onUpdate(points) {
-			this.rwrist = points.find(({ name }) => name === 'right_wrist');
-			this.lwrist = points.find(({ name }) => name === 'left_wrist');
+			this.wrist = points.find(({ name }) => name === 'right_wrist');
+
+			// let divider = 0;
+			// this.sum.x = points
+			// 	.filter(({ score }) => score >= 0.5)
+			// 	.reduce((cur, acc, { x, score }, _acc) => {
+			// 		console.log(cur, acc);
+			// 		divider += score;
+			// 		return acc + x;
+			// 	}, 0);
+
+			// this.sum.x /= divider;
+
+			const a = points.reduce((acc, { x, score }) => {
+				return acc + x;
+			}, 0);
+
+			this.sum.x = a / points.length;
 		},
 	},
 };
