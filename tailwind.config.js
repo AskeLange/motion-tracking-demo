@@ -21,9 +21,6 @@ module.exports = {
 		 * Colors
 		 */
 		colors: {
-			white: 'rgb(var(--color-white) / var(--tw-bg-opacity, 1))',
-			black: 'rgb(var(--color-black) / var(--tw-bg-opacity, 1))',
-
 			primary: 'rgb(var(--color-primary) / var(--tw-bg-opacity, 1))',
 			secondary: 'rgb(var(--color-secondary) / var(--tw-bg-opacity, 1))',
 			tertiary: 'rgb(var(--color-tertiary) / var(--tw-bg-opacity, 1))',
@@ -38,11 +35,12 @@ module.exports = {
 		fontSize: fontSize,
 
 		fontFamily: {
-			'helvetica-neue': ['Helvetica Neue', 'helvetica', 'sans-serif'],
+			'gt-america': ['GT America', 'sans-serif'],
 		},
 
 		fontWeight: {
 			normal: 400,
+			medium: 500,
 		},
 
 		lineHeight: {
@@ -56,6 +54,7 @@ module.exports = {
 			in: 'cubic-bezier(0.7, 0, .6, .9)',
 			out: 'cubic-bezier(0.4, 0.1, 0.3, 1)',
 			'in-out': 'cubic-bezier(0.7, 0, 0.3, 1)',
+			'smooth-out': 'cubic-bezier(0.14, 0.59, 0.48, 0.9)',
 		},
 
 		transitionDuration: {
@@ -124,6 +123,7 @@ module.exports = {
 			...spacing,
 
 			0: '0px',
+			12: '12px',
 			auto: 'auto',
 			full: '100%',
 			screen: '100vw',
@@ -164,6 +164,7 @@ module.exports = {
 			...spacing,
 
 			0: '0px',
+			12: '12px',
 			auto: 'auto',
 			full: '100%',
 			screen: '100vh',

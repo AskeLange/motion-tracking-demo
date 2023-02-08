@@ -1,5 +1,4 @@
 @import './settings/index.css';
-@import './transitions/index.css';
 
 @tailwind base;
 @tailwind components;

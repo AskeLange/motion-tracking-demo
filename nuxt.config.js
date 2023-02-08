@@ -1,14 +1,9 @@
-// import Prismic from '@prismicio/client';
-// import { Link } from '@prismicio/helpers';
-import { apiEndpoint } from './sm.json';
-import { routes } from './assets/js/route-resolver.js';
-
 export default {
 	target: 'static',
 
 	css: ['@/assets/css/main.css'],
 	plugins: ['~/plugins/global-components.js'],
-	buildModules: ['@nuxt/postcss8', '@nuxtjs/svg', '@nuxtjs/prismic'],
+	buildModules: ['@nuxt/postcss8', '@nuxtjs/svg'],
 
 	build: {
 		postcss: {
@@ -37,7 +32,7 @@ export default {
 	 * Default head, not much else to say.
 	 */
 	head: {
-		title: 'Prismic Boilerplate',
+		title: 'Motion Tracking Demo',
 
 		htmlAttrs: {
 			lang: 'en',
@@ -55,36 +50,4 @@ export default {
 
 		link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
 	},
-
-	/**
-	 * Prismic configuration, which includes the route-resolver
-	 * which connects prismic types to specific pages.
-	 */
-	prismic: {
-		endpoint: apiEndpoint,
-		modern: true,
-		apiOptions: { routes },
-	},
-
-	/**
-	 * Example
-	 * 
-	 * Makes sure static pages are generated for all subpages,
-	 * such that subpages that are not linked to internally,
-	 * can still be accessed after deploy.
-	 *
-	 * https://prismic.io/docs/technologies/nuxt-define-routes#staticsite-generation
-	 */
-	// generate: {
-	// 	routes: async () => {
-	// 		const client = Prismic.client(apiEndpoint, { routes });
-	// 		const pages = await client.query(
-	// 			Prismic.Predicates.at('document.type', 'subpage')
-	// 		);
-
-	// 		return pages.results.map((page) =>
-	// 			Link.url(page, (doc) => (doc.type === 'frontpage' ? '/' : ''))
-	// 		);
-	// 	},
-	// },
 }
